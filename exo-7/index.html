@@ -4,10 +4,32 @@
         <meta charset="utf-8">
 		<script src="datas.js"></script>
 		<script src="exo7.js"></script>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	</head>
     <body>
 		<div class="container">
 			<h1>Exercice 7</h1>
+			<div class="col-8" style="float: left"><input type="text" id="afficheArticles" class="form-control"></div><div class="col-3" style="float: right"><button name="buttonArticle" onclick="productByType()" class="btn btn-primary">Search</button></div>
+			<div class="col-12 pt-3" style="clear: both; margin-top: 10px"><input type="checkbox" name="inStock" id="inStock"><label> Product in stock</label></div>
+			<div class="col-8 pt-3" style="width:200px;">
+				<select class="form-control" id="listSort" onchange="orderProduct();">
+					<option value="0" selected="selected">Trier</option>
+					<option value="1">nom a/z</option>
+					<option value="2">nom z/a</option>
+					<option value="3">prix -/+</option>
+					<option value="4">prix +/-</option>
+				</select>
+			</div>
+			<h1 class="mt-5 mb-4">Ajouter un produit</h1>
+			<form action="#">
+				<div class="col-8 pt-3"><input type="text" class="form-control" name="nameProduct" id="nameProduct" placeholder="Ajouter un nom de produit"></div>
+				<div class="col-8 pt-3"><input type="text" class="form-control" name="typeProduct" id="typeProduct" placeholder="Ajouter un type de produit"></div>
+				<div class="col-8 pt-3"><input type="text" class="form-control" name="descriptionProduct" id="descriptionProduct" placeholder="Ajouter une description de produit"></div>
+				<div class="col-8 pt-3"><input type="text" class="form-control" name="priceProduct" id="priceProduct" placeholder="Ajouter un prix a votre produit"></div>
+				<div class="col-8 pt-3"><input type="text" class="form-control" name="quantityProduct" id="quantityProduct" placeholder="Ajouter una quantité de produit"></div>
+				<div class="col-8 pt-3"><button type="button" name="buttonCreateArticle" class="btn btn-primary" onclick="createArticle()" style="float: right">Create</button></div>
+
+			</form>
 		</div>
 	</body>
 </html>
