@@ -98,5 +98,11 @@ function createArticle() {
 	console.log(jsonDatas);
 }
 
+jsonDatas.forEach(function (type) {
+	type.items.forEach(function (items) {
+		console.log(items.contact);
+	})
+});
+
 
 
