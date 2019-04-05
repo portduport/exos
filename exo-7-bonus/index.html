@@ -1,44 +1,114 @@
 <!doctype html>
-<html  lang="fr">
-    <head>
-        <meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-		<script src="datas.js"></script>
-		<script src="exo7.js"></script>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="datas.js"></script>
 
-    </head>
-    <body>
-		<div class="container-fluid">
-			<h1>Exercice 7</h1>
-			
-			<ul class="nav nav-tabs"  role="tablist">
-			  <li class="nav-item"><a class="nav-link active" id="table-tab-nav" data-toggle="tab"  role="tab"  href="#table-tab" aria-controls="table-tab" aria-selected="true">Table</a></li>
-			</ul>
+</head>
+<body>
+<div class="container-fluid">
+    <h1>Exercice 7</h1>
 
-			<div class="tab-content">
-				<div id="table-tab" role="tabpanel" class="tab-pane fade show active" aria-labelledby="table-tab-nav">
-					<br/>
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>Nom</th>
-								<th>Description</th>
-								<th>Type</th>
-								<th>Prix</th>
-								<th>Quantité</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>		
-					</table>
-				</div>
-				
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item"><a class="nav-link active" id="table-tab-nav" data-toggle="tab" role="tab"
+                                href="#table-tab" aria-controls="table-tab" aria-selected="true">Table</a></li>
+        <li class="nav-item"><a class="nav-link" id="panier-tab-nav" data-toggle="tab" role="tab" href="#panier-tab"
+                                aria-controls="panier-tab" aria-selected="false">Panier</a></li>
+    </ul>
+    <div class="col-8 pt-3" style="width:200px;">
+        <select class="form-control" id="listSort" onchange="orderProduct();">
+            <option value="0" selected="selected">Trier</option>
+            <option value="1">nom a/z</option>
+            <option value="2">nom z/a</option>
+            <option value="3">prix -/+</option>
+            <option value="4">prix +/-</option>
+        </select>
+    </div>
+    <div class="col-8 pt-3" style="width:200px;">
+        <select class="form-control" id="listFilter" onchange="FilterAllData();">
+            <option value="0">Filtrer le liste</option>
+        </select>
+    </div>
 
-			</div>			
-		</div>
-		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	</body>
+    <div class="tab-content">
+        <div id="table-tab" role="tabpanel" class="tab-pane fade show active" aria-labelledby="table-tab-nav">
+            <br/>
+            <table class="table table-striped" id="tableUS">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                </tr>
+                </thead>
+                <tbody id="bodyTable">
+
+                </tbody>
+            </table>
+            <button type="button" name="addToCart" class="btn btn-primary" onclick="addToCart()"
+                    style="float: right">Ajouter à Panier</button>
+        </div>
+
+
+        <div id="panier-tab" role="tabpanel" class="tab-pane fade" aria-labelledby="panier-tab-nav">
+            <br/>
+            <table class="table table-striped" id="tablePANIER">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                </tr>
+                </thead>
+                <tbody id="bodyPANIER">
+
+                </tbody>
+                <tfoot id="footPANIER">
+
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<h1 class="mt-5 mb-4">Ajouter un produit</h1>
+<form action="#">
+    <div class="col-8 pt-3"><input type="text" class="form-control" name="nameProduct" id="nameProduct"
+                                   placeholder="Ajouter un nom de produit"></div>
+    <div class="col-8 pt-3"><input type="text" class="form-control" name="typeProduct" id="typeProduct"
+                                   placeholder="Ajouter un type de produit"></div>
+    <div class="col-8 pt-3"><input type="text" class="form-control" name="descriptionProduct"
+                                   id="descriptionProduct" placeholder="Ajouter une description de produit"></div>
+    <div class="col-8 pt-3"><input type="text" class="form-control" name="priceProduct" id="priceProduct"
+                                   placeholder="Ajouter un prix a votre produit"></div>
+    <div class="col-8 pt-3"><input type="text" class="form-control" name="quantityProduct" id="quantityProduct"
+                                   placeholder="Ajouter una quantité de produit"></div>
+    <div class="col-8 pt-3">
+        <button type="button" name="buttonCreateArticle" class="btn btn-primary" onclick="createArticle()"
+                style="float: right">Create
+        </button>
+    </div>
+
+</form>
+<script src="exo7.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
 </html>

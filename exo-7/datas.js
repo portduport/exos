@@ -69,7 +69,7 @@ var jsonDatas = [
         "items": [
             {
                 "name": "Monopoly",
-                "description": "",
+                "description": "Be rich in a second",
                 "price": 30,
                 "quantity": 300,
                 "contact": {
@@ -85,7 +85,7 @@ var jsonDatas = [
         "items": [
             {
                 "name": "Mario Bros",
-                "description": "",
+                "description": "Help Mario to eat things",
                 "price": 30,
                 "quantity": 200,
                 "contact": {
@@ -101,7 +101,7 @@ var jsonDatas = [
         "items": [
             {
                 "name": "Place VIP concert Metallica",
-                "description": "",
+                "description": "Do you love heavy metal?",
                 "price": 800,
                 "quantity": 10,
                 "contact": {
@@ -112,7 +112,7 @@ var jsonDatas = [
             },
             {
                 "name": "Entrée au parc Astérix",
-                "description": "",
+                "description": "You can take the magic poison",
                 "price": 30,
                 "quantity": 200,
                 "contact": {
