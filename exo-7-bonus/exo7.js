@@ -33,7 +33,7 @@ function dataFilter() {
                 selectOPTION.appendChild(myCurrentOption);
             }
         }
-    })
+    });
 
 }
 
@@ -44,18 +44,22 @@ function FilterAllData() {
     let selector = document.getElementById("listFilter");
     let selected = selector.options[selector.selectedIndex].value;
     console.log(selected);
-    for (var i = 0; i < jsonDatas.length; i++) {
+    for (let i = 0; i < jsonDatas.length; i++) {
         if (selected === jsonDatas[i].type) {
             let myCurrentRow = document.createElement('tr');
+            let myCurrentCell = document.createElement('td');
             let myCheckBox = document.createElement('input');
             myCheckBox.setAttribute('type', 'checkbox');
+            myCheckBox.setAttribute('id', jsonDatas[i].id);
+            myCurrentCell.appendChild(myCheckBox);
+            myCurrentRow.appendChild(myCurrentCell);
             for (var prop in jsonDatas[i]) {
                 let myCurrentCell = document.createElement('td');
                 let myCurrentText = document.createTextNode(jsonDatas[i][prop]);
                 myCurrentCell.appendChild(myCurrentText);
                 myCurrentRow.appendChild(myCurrentCell);
             }
-            var tbodyTABLE = document.getElementById('bodyTable');
+            let tbodyTABLE = document.getElementById('bodyTable');
             tbodyTABLE.appendChild(myCurrentRow);
         }
         if (selected == 0) {
@@ -67,7 +71,7 @@ function FilterAllData() {
 
 
 function insertData() {
-    for (var i = 0; i < jsonDatas.length; i++) {
+    for (let i = 0; i < jsonDatas.length; i++) {
         let myCurrentRow = document.createElement('tr');
         let myCurrentCell = document.createElement('td');
         let myCheckBox = document.createElement('input');
@@ -75,13 +79,12 @@ function insertData() {
         myCheckBox.setAttribute('id', jsonDatas[i].id);
         myCurrentCell.appendChild(myCheckBox);
         myCurrentRow.appendChild(myCurrentCell);
-        for (var prop in jsonDatas[i]) {
+        for (let prop in jsonDatas[i]) {
             let myCurrentCell = document.createElement('td');
             let myCurrentText = document.createTextNode(jsonDatas[i][prop]);
             myCurrentCell.appendChild(myCurrentText);
             myCurrentRow.appendChild(myCurrentCell);
         }
-
         let tbodyTABLE = document.getElementById('bodyTable');
         tbodyTABLE.appendChild(myCurrentRow);
     }
@@ -98,7 +101,7 @@ function eraseTable() {
 function createArticle() {
     console.clear();
     eraseTable();
-    var obj = {};
+    let obj = {};
     obj.name = document.getElementById("nameProduct").value;
     obj.type = document.getElementById("typeProduct").value;
     obj.description = document.getElementById("descriptionProduct").value;
@@ -110,8 +113,8 @@ function createArticle() {
 
 function orderProduct() {
     console.clear();
-    var selector = document.getElementById("listSort");
-    var selected = selector.options[selector.selectedIndex].value;
+    let selector = document.getElementById("listSort");
+    let selected = selector.options[selector.selectedIndex].value;
     //console.log(selected);
 
     if (selected == 1) {
@@ -162,11 +165,10 @@ function compareValues(key, order = 'asc') {
     };
 }
 
+
 function addToCart() {
     erasePanier();
-
     // We add the products to the cart
-
     let cart = [];
     jsonDatas.forEach(function (items) {
         //console.log(items);
@@ -174,12 +176,9 @@ function addToCart() {
         if (checkBox.checked) {
             console.log(items.id);
             cart.push(items.id);
-
         }
-    })
-
+    });
     // We create the cart with the product selection
-
     for (let i = 0; i < cart.length; i++) {
         let myCurrentRow = document.createElement('tr');
         let myCurrentCell = document.createElement('td');
@@ -189,24 +188,94 @@ function addToCart() {
         myCurrentCell.appendChild(myCheckBox);
         myCurrentRow.appendChild(myCurrentCell);
         for (let n = 0; n < jsonDatas.length; n++) {
-            if (cart[i] === jsonDatas[n].id){
-            for (var prop in jsonDatas[n]) {
-                let myCurrentCell = document.createElement('td');
-                let myCurrentText = document.createTextNode(jsonDatas[n][prop]);
-                myCurrentCell.appendChild(myCurrentText);
-                myCurrentRow.appendChild(myCurrentCell);
-            }}
+            if (cart[i] === jsonDatas[n].id) {
+                for (let prop in jsonDatas[n]) {
+                    if (prop !== 'quantity') {
+                        let myCurrentCell = document.createElement('td');
+                        let myCurrentText = document.createTextNode(jsonDatas[n][prop]);
+                        myCurrentCell.appendChild(myCurrentText);
+                        myCurrentRow.appendChild(myCurrentCell);
+                    } else {
+                        let myCurrentCell = document.createElement('td');
+                        let myCurrentText = document.createTextNode('1');
+                        myCurrentCell.appendChild(myCurrentText);
+                        myCurrentRow.appendChild(myCurrentCell);
+                    }
+                }
+            }
         }
 
         let tbodyTABLE = document.getElementById('bodyPANIER');
         tbodyTABLE.appendChild(myCurrentRow);
+
     }
+    let tfootRow = document.createElement('tr');
+    for (let w = 0; w < 5; w++) {
+        let tfootPrixVideCell = document.createElement('td');
+        tfootRow.appendChild(tfootPrixVideCell);
+    }
+    calcular();
+    //usartotal();
+    let tfootPrixCell = document.createElement('td');
+    let tfootPrixText = document.createTextNode(total + ' €');
+    let tfootQtyCell = document.createElement('td');
+    let tfootQtyText = document.createTextNode(cantidadTotal);
+    tfootPrixCell.appendChild(tfootPrixText);
+    tfootRow.appendChild(tfootPrixCell);
+    tfootQtyCell.appendChild(tfootQtyText);
+    tfootRow.appendChild(tfootQtyCell);
+    let tfootTABLE = document.getElementById('footPANIER');
+    tfootTABLE.appendChild(tfootRow);
+    return cart;
+
 }
 
 function erasePanier() {
     document.getElementById("bodyPANIER").innerHTML = "";
+    document.getElementById("footPANIER").innerHTML = "";
 }
 
-function Panier(){
+let total = 0;
+let cantidadTotal = 0;
 
+function calcular() {
+    // obtenemos todas las filas del tbody
+    let filas = document.querySelectorAll("#tablePANIER tbody tr");
+    console.log('las filas de la table ' + filas);
+    // recorremos cada una de las filas
+    filas.forEach(function (e) {
+
+        // obtenemos las columnas de cada fila
+        let columnas = e.querySelectorAll("td");
+        console.log('las columnas de la table ' + columnas);
+        // obtenemos los valores de la cantidad y importe
+        let cantidad = parseFloat(columnas[6].textContent);
+        let importe = parseFloat(columnas[5].textContent);
+        console.log(cantidad);
+        console.log(importe);
+
+        // mostramos el total por fila
+        //filas[3].textContent=(cantidad*importe).toFixed(0);
+
+
+        total += importe;
+        cantidadTotal += cantidad;
+
+
+        console.log(total + " " + cantidadTotal);
+    });
+    return total;
+    return cantidadTotal;
+    // mostramos la suma total
+    //var filas=document.querySelectorAll("#tablePANIER tfoot tr td");
+    // filas[1].textContent=total.toFixed(2);
 }
+
+function commandOK() {
+    console.log(cart);
+        jsonDatas[n].quantity --;
+        eraseTable();
+        insertData();
+    console.log('es el total que sale ' + total);
+}
+
